@@ -28,4 +28,6 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = '__all__'
 
+    def create(self, validated_data):
+         return Post.objects.create(**validated_data)
 
