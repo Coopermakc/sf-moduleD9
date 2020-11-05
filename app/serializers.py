@@ -22,12 +22,14 @@ class CategorySerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
 
     author = AuthorSerializer(required=False)
-    category = CategorySerializer(required=False)
+    category = CategorySerializer(required=False, many=True)
     
     class Meta:
         model = Post
         fields = '__all__'
 
     def create(self, validated_data):
-         return Post.objects.create(**validated_data)
+        category = Category.objects.get(id=validated_data['category'])
+        validated_data['category'] = category
+        return super(PostSerializer, self).create(validated_data)
 

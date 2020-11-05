@@ -18,13 +18,13 @@ class CategoryList(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-    def create(self, request):
+    # def create(self, request):
 
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class CategoryDetail(generics.RetrieveAPIView):
     queryset = Category.objects.all().filter()
