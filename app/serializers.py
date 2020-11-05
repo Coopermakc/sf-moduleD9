@@ -29,7 +29,11 @@ class PostSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        category = Category.objects.get(id=validated_data['category'])
-        validated_data['category'] = category
+        ids = validated_data.pop('category')
+        categories = []
+        for id in data:
+            obj = Category.objects.get(id=id)
+            categories.append(obj)
+        validated_data['category'] = categies
         return super(PostSerializer, self).create(validated_data)
 
