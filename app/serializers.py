@@ -10,27 +10,28 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = ['username', 'first_name', 'last_name']
 
 
-class CategorySerializer(serializers.ModelSerializer):
 
-
-    class Meta:
-        model = Category
-        fields = ['id', 'title', 'slug', 'posts']
 
 
 
 class PostSerializer(serializers.ModelSerializer):
 
     author = AuthorSerializer(required=False)
-    category = CategorySerializer(required=False)
+    # category = CategorySerializer(required=False)
     
     class Meta:
         model = Post
         fields = '__all__'
 
     def create(self, validated_data):
-        id_ = validated_data.pop('category')
+        id_ = validated_data.pop('category').pk
         category = Category.objects.get(id=id_)
         validated_data['category'] = category
         return super(PostSerializer, self).create(validated_data)
 
+class CategorySerializer(serializers.ModelSerializer):
+    posts = PostSerializer(many=True)
+
+    class Meta:
+        model = Category
+        fields = ['id', 'title', 'slug', 'posts']
